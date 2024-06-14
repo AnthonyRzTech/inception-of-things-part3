@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playground-app
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: playground-app
+  template:
+    metadata:
+      labels:
+        app: playground-app
+    spec:
+      containers:
+      - name: playground-app
+        image: wil42/playground:v2
+        ports:
+        - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: playground-app-service
+  namespace: dev
+spec:
+  selector:
+    app: playground-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8888
+
